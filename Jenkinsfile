@@ -11,16 +11,18 @@ pipeline {
                 sh "env && echo TEST"
             }
         }
-    }
 
-    stage('Parse tag') {
-        steps {
-            env.TAG = sh(returnStdout: true, script: "node -p \"'\${GIT_BRANCH}'.match(/(.+)-prerelease/)[1]\"")
-            env.COMMIT_SHA = sh(returnStdout: true, script: "git rev-parse HEAD")
-            sh "echo ${env.TAG}"
-            sh "echo ${env.COMMIT_SHA}"
+        stage('Parse tag') {
+            steps {
+                env.TAG = sh(returnStdout: true, script: "node -p \"'\${GIT_BRANCH}'.match(/(.+)-prerelease/)[1]\"")
+                env.COMMIT_SHA = sh(returnStdout: true, script: "git rev-parse HEAD")
+                sh "echo ${env.TAG}"
+                sh "echo ${env.COMMIT_SHA}"
+            }
         }
     }
+
+
 
     post {
         always {
