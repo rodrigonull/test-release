@@ -1,5 +1,9 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'quay.io/kie-tools/kie-tools-ci-build:ubuntu'
+        }
+    }
     
     options {
         timeout(time: 2, unit: 'MINUTES')
