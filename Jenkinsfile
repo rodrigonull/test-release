@@ -29,6 +29,20 @@ pipeline {
             }
         }
 
+        stage('Checkout kogito-online-staging') {
+            steps {
+                dir('kogito-online-staging') {
+                    script {
+                        githubUtils.checkoutRepo(
+                            'https://github.com/kiegroup/kogito-online.git',
+                            'main',
+                            "${pipelineVars.kieToolsBotGithubCredentialsId}"
+                        )
+                    }
+                }
+            }
+        }
+
         stage('Create Release') {
             steps {
                 script {
