@@ -61,7 +61,7 @@ pipeline {
                     response = githubUtils.uploadReleaseAsset(
                         "${env.RELEASE_UPLOAD_ASSET_URL}",
                         "${assetFile}",
-                        "Test.zip"
+                        "Test.zip",
                         "application/zip",
                         "gh-token"
                     )
