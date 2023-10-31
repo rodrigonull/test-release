@@ -21,8 +21,8 @@ pipeline {
         stage('Parse tag') {
             steps {
                 script {
-                    env.TAG = sh(returnStdout: true, script: "#!/bin/bash -el \n node -p \"'\${GIT_BRANCH}'.match(/(.+)-prerelease/)[1]\"")
-                    env.COMMIT_SHA = sh(returnStdout: true, script: "git rev-parse HEAD")
+                    env.TAG = sh(returnStdout: true, script: "#!/bin/bash -el \n node -p \"'\${GIT_BRANCH}'.match(/(.+)-prerelease/)[1]\"").trim()
+                    env.COMMIT_SHA = sh(returnStdout: true, script: "git rev-parse HEAD").trim()
                     sh "echo ${env.TAG}"
                     sh "echo ${env.COMMIT_SHA}"
                 }
@@ -67,7 +67,7 @@ def createGHRelease(String repository, String name, String tag, String commit, B
         -H "Authorization: Bearer ${GITHUB_TOKEN}" \
         -H "X-GitHub-Api-Version: 2022-11-28" \
         https://api.github.com/repos/rodrigonull/test-release/releases \
-        -d '{"tag_name": "$tag", "target_commitish": "0c9760b8cb74c98f24cf4f0dcb64c44c7f184ccb", "name": "0.1.0 (alpha)", "draft": true, "prerelease": true}'
+        -d '{"tag_name": "${tag}", "target_commitish": "0c9760b8cb74c98f24cf4f0dcb64c44c7f184ccb", "name": "0.1.0 (alpha)", "draft": true, "prerelease": true}'
         """.trim()
         print(response)
         respObj = new JsonSlurper().parseText(response as String)
