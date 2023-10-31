@@ -32,7 +32,7 @@ pipeline {
         stage('Create Release') {
             steps {
                 script {
-                    response = createGHRelease(
+                    response = githubUtils.createGHRelease(
                         "rodrigonull/test-release",
                         "${env.TAG} @ (alpha)",
                         "${env.TAG}",
