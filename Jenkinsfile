@@ -37,7 +37,7 @@ pipeline {
                         "${env.TAG} @ (alpha)",
                         "${env.TAG}",
                         "${GIT_COMMIT}",
-                        true,
+                        false,
                         true,
                         "gh-token"
                     )
