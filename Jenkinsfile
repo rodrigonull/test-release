@@ -32,7 +32,7 @@ pipeline {
         stage('Create Release') {
             steps {
                 script {
-                    response = githubUtils.createGHRelease(
+                    response = githubUtils.createRelease(
                         "rodrigonull/test-release",
                         "${env.TAG} @ (alpha)",
                         "${env.TAG}",
@@ -44,7 +44,27 @@ pipeline {
 
                     respJSON = readJSON text: response
 
-                    print(respJSON)
+                    env.RELEASE_ID = respJSON.id
+                    env.RELEASE_HTML_URL = respJSON.html_url
+                    env.RELEASE_UPLOAD_ASSET_URL = respJSON.upload_url
+                }
+            }
+        }
+
+        stage('Upload Assets to Release') {
+            steps {
+                script {
+                    assetFile = "${WORKSPACE}/test.zip"
+
+                    zipUtils.outputEmptyZip("${assetFile}")
+
+                    response = githubUtils.uploadReleaseAsset(
+                        "${env.RELEASE_UPLOAD_ASSET_URL}",
+                        "${assetFile}",
+                        "Test.zip"
+                        "application/zip",
+                        "gh-token"
+                    )
                 }
             }
         }
