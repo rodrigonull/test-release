@@ -69,6 +69,8 @@ def createGHRelease(String repository, String name, String tag, String commit, B
         https://api.github.com/repos/${repository}/releases \
         -d '{"tag_name":${tag},"target_commitish":${commit},"name":${name},"draft":${draft},"prerelease":${preRelease}}'
         """.trim()
-        return jsonSlurper.parseText(response as String)
+        respObj = new JsonSlurper().parseText(response as String)
+        print(respObj)
+        return respObj
     }
 }
