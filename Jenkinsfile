@@ -66,9 +66,10 @@ def createGHRelease(String repository, String name, String tag, String commit, B
         -H "Accept: application/vnd.github+json" \
         -H "Authorization: Bearer ${GITHUB_TOKEN}" \
         -H "X-GitHub-Api-Version: 2022-11-28" \
-        https://api.github.com/repos/${repository}/releases \
-        -d '{"tag_name":${tag},"target_commitish":${commit},"name":${name},"draft":${draft},"prerelease":${preRelease}}'
+        https://api.github.com/repos/rodrigonull/test-release/releases \
+        -d '{"tag_name": "${tag}", "target_commitish": "${commit}", "name": "${name}", "draft": ${draft}, "prerelease": ${preRelease}'
         """.trim()
+        print(response)
         respObj = new JsonSlurper().parseText(response as String)
         print(respObj)
         return respObj
