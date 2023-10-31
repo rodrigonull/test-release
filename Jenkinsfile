@@ -56,7 +56,10 @@ pipeline {
                 script {
                     assetFile = "${WORKSPACE}/test.zip"
 
-                    zipUtils.outputEmptyZip("${assetFile}")
+                    sh """
+                    output_empty_zip () { echo UEsFBgAAAAAAAAAAAAAAAAAAAAAAAA== | base64 -d; }
+                    output_empty_zip > ${assetFile}
+                    """
 
                     response = githubUtils.uploadReleaseAsset(
                         "${env.RELEASE_UPLOAD_ASSET_URL}",
