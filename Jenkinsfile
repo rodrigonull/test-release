@@ -41,7 +41,6 @@ pipeline {
                         true,
                         "gh-token"
                     )
-                    print(response.html_url)
                 }
             }
         }
@@ -61,6 +60,7 @@ pipeline {
 def createGHRelease(String repository, String name, String tag, String commit, Boolean draft, Boolean preRelease, String credentialsId) {
     withCredentials([string(credentialsId: credentialsId, variable: 'GITHUB_TOKEN')]) {
         response = sh returnStdout: true, script: """
+        set +x
         curl -L \
         -X POST \
         -H "Accept: application/vnd.github+json" \
@@ -70,7 +70,7 @@ def createGHRelease(String repository, String name, String tag, String commit, B
         -d '{"tag_name": "${tag}", "target_commitish": "${commit}", "name": "${name}", "draft": ${draft}, "prerelease": ${preRelease}'
         """.trim()
         respObj = new JsonSlurper().parseText(response as String)
-        print(respObj)
+        print(respObj.html_url)
         return respObj
     }
 }
