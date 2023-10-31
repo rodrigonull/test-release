@@ -41,6 +41,10 @@ pipeline {
                         true,
                         "gh-token"
                     )
+
+                    respJSON = readJSON text: response
+
+                    print(respJSON)
                 }
             }
         }
